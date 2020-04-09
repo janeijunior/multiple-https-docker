@@ -2,6 +2,7 @@ version: '2'
 
 services:
   app-inmanager:
+    container_name: app-inmanager
     image: nginx
     restart: always
     volumes:
@@ -19,7 +20,7 @@ services:
     depends_on:
       - db
   db:
-    container_name: db-01
+    container_name: db-inmanager
     image: 'mysql:5.7'
     entrypoint:
       - /entrypoint.sh

@@ -2,6 +2,7 @@ version: '2'
 
 services:
   app-easymanager:
+    container_name: app-easymanager
     image: nginx
     restart: always
     volumes:
@@ -17,9 +18,9 @@ services:
     expose:
       - 80
     depends_on:
-      - db
-  db:
-    container_name: db-01
+      - db-easymanager
+  db-easymanager:
+    container_name: db-easymanager
     image: 'mysql:5.7'
     entrypoint:
       - /entrypoint.sh
@@ -32,9 +33,9 @@ services:
       - './db/mysql-dump/demo_data.sql:/docker-entrypoint-initdb.d/demo_data.sql'
       - './db/data:/var/lib/mysql'
     expose:
-      - '1306'
+      - '1307'
     ports:
-      - '1306:3306'
+      - '1307:3306'
     environment:
       - MYSQL_ROOT_PASSWORD=rootpass
       - MYSQL_DATABASE=motor
