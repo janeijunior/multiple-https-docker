@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  app-inmanager:
+    image: nginx
+    restart: always
+    volumes:
+      - "./html:/usr/share/nginx/html"
+      - "./logs:/var/log/nginx"
+    environment:
+      # NGINX-PROXY ENVIRONMENT VARIABLES: UPDATE ME
+      - VIRTUAL_HOST=inmanager.com.br 
+      - VIRTUAL_PORT=80
+      - LETSENCRYPT_HOST=inmanager.com.br 
+      - LETSENCRYPT_EMAIL=admin@inmanager.com.br
+      # /END NGINX-PROXY ENVIRONMENT VARIABLES
+    expose:
+      - 80
+    
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
