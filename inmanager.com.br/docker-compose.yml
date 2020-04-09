@@ -16,9 +16,33 @@ services:
       # /END NGINX-PROXY ENVIRONMENT VARIABLES
     expose:
       - 80
-    
-
+    depends_on:
+      - db
+  db:
+    container_name: db-01
+    image: 'mysql:5.7'
+    entrypoint:
+      - /entrypoint.sh
+      - '--character-set-server=utf8'
+      - '--collation-server=utf8_general_ci'
+      - '--sql-mode=NO_AUTO_CREATE_USER'
+    command: '--default-authentication-plugin=mysql_native_password --disable-partition-engine-check'
+    restart: always
+    volumes:
+      - './db/mysql-dump/demo_data.sql:/docker-entrypoint-initdb.d/demo_data.sql'
+      - './db/data:/var/lib/mysql'
+    expose:
+      - '1306'
+    ports:
+      - '1306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=motor
+      - MYSQL_USER=use
+      - MYSQL_PASSWORD=supersecret
+      - MYSQL_ROOT_HOST=%
 networks:
   default:
     external:
       name: nginx-proxy
+
